@@ -1,0 +1,79 @@
+import { createContentSourceAction } from "@/app/actions";
+import { contentModes, platforms, platformLabels, sourceTypes } from "@/lib/content-types";
+
+export function ContentUpdateForm() {
+  return (
+    <form action={createContentSourceAction} className="panel stack">
+      <div>
+        <label className="label" htmlFor="title">Title</label>
+        <input id="title" name="title" className="field" placeholder="Example: Approval queue status filters" required />
+      </div>
+
+      <div className="row">
+        <div>
+          <label className="label" htmlFor="sourceType">Source type</label>
+          <select id="sourceType" name="sourceType" className="field" defaultValue="feature_update">
+            {sourceTypes.map((type) => (
+              <option key={type} value={type}>{type.replaceAll("_", " ")}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="label" htmlFor="contentMode">Content mode</label>
+          <select id="contentMode" name="contentMode" className="field" defaultValue="update">
+            {contentModes.map((mode) => (
+              <option key={mode} value={mode}>{mode.replaceAll("_", " ")}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="row">
+        <div>
+          <label className="label" htmlFor="audience">Audience</label>
+          <input id="audience" name="audience" className="field" placeholder="Coaches, scouts, clubs" />
+        </div>
+        <div>
+          <label className="label" htmlFor="tone">Tone</label>
+          <input id="tone" name="tone" className="field" placeholder="Founder-led, clear, practical" />
+        </div>
+      </div>
+
+      <div className="row">
+        <div>
+          <label className="label" htmlFor="cta">CTA</label>
+          <input id="cta" name="cta" className="field" placeholder="Try ScoutEdge" />
+        </div>
+        <div>
+          <label className="label" htmlFor="mediaUrl">Media URL</label>
+          <input id="mediaUrl" name="mediaUrl" className="field" type="url" placeholder="https://..." />
+        </div>
+      </div>
+
+      <fieldset className="fieldset">
+        <legend className="label">Platforms</legend>
+        <div className="checkbox-row">
+          {platforms.map((platform) => (
+            <label key={platform} className="check">
+              <input name="platforms" type="checkbox" value={platform} defaultChecked />
+              <span>{platformLabels[platform]}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div>
+        <label className="label" htmlFor="rawInput">Product update / raw input</label>
+        <textarea
+          id="rawInput"
+          name="rawInput"
+          className="field textarea tall-textarea"
+          placeholder="Paste the ScoutEdge product update. Include what changed, who it helps, and why it matters."
+          required
+        />
+      </div>
+
+      <button className="button" type="submit">Generate Drafts</button>
+    </form>
+  );
+}
